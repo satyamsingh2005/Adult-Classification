@@ -44,7 +44,7 @@ columns = [
 # In[3]:
 
 
-df = pd.read_csv(r"D:\Sentiment\adult\adult.data",header=None,names = columns, skipinitialspace =True)
+df = pd.read_csv("adult.data",header=None,names = columns, skipinitialspace =True)
 
 
 # In[4]:
