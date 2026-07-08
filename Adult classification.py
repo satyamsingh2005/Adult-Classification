@@ -206,7 +206,7 @@ models = {
     ),
     'AdaBoost': AdaBoostClassifier(
         n_estimators=200, learning_rate=0.5,
-        random_state=42, algorithm='SAMME'
+        random_state=42
     ),
     'Bagging': BaggingClassifier(
         n_estimators=100, n_jobs=-1, random_state=42
