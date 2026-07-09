@@ -446,21 +446,3 @@ prob   = model.predict_proba(new_person)[0][1]
 print(f"\nSample prediction : {'> 50K' if pred else '<= 50K'}")
 print(f"Confidence        : {prob:.1%}")
 
-
-# In[28]:
-
-
-import os 
-
-
-# In[29]:
-
-
-print(os.getcwd())
-
-
-# In[ ]:
-
-
-
-
