@@ -42,15 +42,17 @@ def predict():
     
     if prediction == 1:
         result = "Income is likely ABOVE $50K"
+        result_color = "#22c55e"   # Green
     else:
         result = "Income is likely BELOW or EQUAL TO $50K"
-    print("Prediction:", prediction)
-    print("Result:",result)
-    
-    return render_template("home.html", prediction_text=result,confidence=f"{probability:.2%}")
+        result_color = "#ef4444"   # Red
 
+    return render_template("home.html",prediction_text=result,confidence=f"{probability:.2%}",result_color=result_color)
 
 if __name__=="__main__":
     app.run(debug=True)
+
+
+
 
 
