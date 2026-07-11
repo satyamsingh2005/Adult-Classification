@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #080710;
+        }
+
+        .co {
+            background-color: rgba(255, 255, 255, 0.13);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+        }
+
+        .co * {
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+
+        input,
+	select {
+            display: block;
+            height: 50px;
+            width: 95%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+        }
+	option {
+	    background:white;
+	    color: black;
+	}
+	select option {
+     	    background-color: white;
+    	    color: black !important;
+	}
+	.predict-btn{
+    	    width:95%;
+	    height:50px;
+    	    margin-top:20px;
+    	    border:none;
+    	    border-radius:10px;
+    	    background:#4f46e5;
+    	    color:white;
+    	    font-size:18px;
+    	    font-weight:600;
+    	    cursor:pointer;
+    	    transition:0.3s;
+	}
+
+	.predict-btn:hover{
+    	     background:#4338ca;
+	}
+	.result-box{
+	    margin:25px;
+	    padding:18px;
+	    background:#1f2937;
+	    border-left:5px solid #10b981;
+	    border-radius:10px;
+	    color:white;
+	    text-align:center;
+	}
+
+	.result-box h3{
+	    color:#10b981;
+	    font-size:24px;
+	    margin-bottom:10px;
+	}
+
+	.result-box p{
+       	    color:#d1d5db;
+   	    font-size:18px;
+	}
+        ::placeholder {
+            color: #e5e5e5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="co col-11 col-md-5 mt-4">
+                <center>
+                    <div class="login mt-4">
+                        <h1 class="text-light">Adult Classification</h1>
+                        <form class="p-3" action="{{ url_for('predict')}}" method="post">
+                            <input type="number" name="age" placeholder="Age" required><br>
+                            <input type="number" name="education_num" placeholder = "Education Number" required><br>
+                            <input type="number" name="capital_gain"  placeholder="Capital Gain" required><br>
+                            <input type="number" name="capital_loss"  placeholder="Capital Loss" required><br>
+                            <input type="number" name="hours_per_week" placeholder="Hours per Week" required><br>
+                            <select name="workclass" required>
+				<option value="">Select Workclass</option>
+    				<option value="Private">Private</option>
+    				<option value="Self-emp-not-inc">Self-emp-not-inc</option>
+    				<option value="Self-emp-inc">Self-emp-inc</option>
+    				<option value="Federal-gov">Federal-gov</option>
+    				<option value="Local-gov">Local-gov</option>
+    				<option value="State-gov">State-gov</option>
+    				<option value="Without-pay">Without-pay</option>
+    				<option value="Never-worked">Never-worked</option>
+			    </select>
+			    <select name="marital_status" required>
+				<option value="">Select Marital Status</option>
+    				<option value="Married-civ-spouse">Married-civ-spouse</option>
+    				<option value="Divorced">Divorced</option>
+    				<option value="Never-married">Never-married</option>
+    				<option value="Separated">Separated</option>
+    				<option value="Widowed">Widowed</option>
+    				<option value="Married-spouse-absent">Married-spouse-absent</option>
+    				<option value="Married-AF-spouse">Married-AF-spouse</option>
+			    </select>
+			    <select name="occupation" required>
+				<option value="">Select Occupation</option>
+    				<option value="Tech-support">Tech-support</option>
+    				<option value="Craft-repair">Craft-repair</option>
+    				<option value="Other-service">Other-service</option>
+    				<option value="Sales">Sales</option>
+    				<option value="Exec-managerial">Exec-managerial</option>
+    				<option value="Prof-specialty">Prof-specialty</option>
+    				<option value="Handlers-cleaners">Handlers-cleaners </option>
+    				<option value="Machine-op-inspct">Machine-op-inspct</option>
+				<option value="Adm-clerical">Adm-clerical</option>
+    				<option value="Farming-fishing">Farming-fishing</option>
+    				<option value="Transport-moving">Transport-moving</option>
+    				<option value="Priv-house-serv">Priv-house-serv</option>
+    				<option value="Protective-serv">Protective-serv</option>
+    				<option value="Armed-Forces">Armed-Forces</option>
+			    </select>
+    			    <select name="relationship" required>
+				<option value="">Select Relationship</option>
+    				<option value="Wife">Wife</option>
+    				<option value="Own-child">Own-child</option>
+    				<option value="Husband">Husband</option>
+    				<option value="Not-in-family">Not-in-family</option>
+    				<option value="Other-relative">Other-relative</option>
+    				<option value="Unmarried">Unmarried</option>
+			    </select>
+			    <select name="race" required>
+				<option value="">Select Race</option>
+    				<option value="White">White</option>
+    				<option value="Asian-Pac-Islander">Asian-Pac-Islander</option>
+    				<option value="Amer-Indian-Eskimo">Amer-Indian-Eskimo</option>
+    				<option value="Other">Other</option>
+    				<option value="Black">Black</option>
+			    </select>
+    			    <select name="sex" required>
+				<option value="">Select Sex</option>
+    				<option value="Female">Female</option>
+    				<option value="Male">Male</option>
+			    </select>
+			    <button type="submit" class="predict-btn">Predict</button>
+                        </form>
+		    {% if prediction_text %}
+		    <div class="result-box">
+    			<h3 style="color: {{ result_color }};">{{ prediction_text }}</h3>
+    			<p>Confidence: {{ confidence }}</p>
+		    </div>
+		    {% endif %}
+                </center>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
